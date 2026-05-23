@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPath AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero-section">
+
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+
+            <h1 class="main-title">
+                CareerPath AI
+            </h1>
+
+            <p class="subtitle">
+                Discover Internships & Jobs Using AI
+            </p>
+
+            <div class="glow-line"></div>
+
+            <button class="start-btn"
+                    onclick="showMainSelection()">
+
+                Get Started
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CONTAINER -->
+
+    <section class="main-container hidden"
+             id="mainContainer">
+
+        <button class="back-btn hidden"
+                id="backBtn"
+                onclick="goBack()">
+
+            ← Back
+
+        </button>
+
+        <div id="dynamicContent"></div>
+
+    </section>
+
+
+    <!-- LOADER -->
+
+    <section id="loaderSection"
+             class="hidden">
+
+        <div class="loader"></div>
+
+        <h2>
+            Searching Opportunities...
+        </h2>
+
+    </section>
+
+
+    <!-- RESULTS -->
+
+    <section id="resultsSection">
+
+        <div id="resultsContainer"></div>
+
+    </section>
+
+
+    <!-- PAGINATION -->
+
+    <div class="pagination hidden"
+         id="paginationBox">
+
+        <button onclick="prevPage()">
+            Previous
+        </button>
+
+        <span id="pageNumber">
+            1
+        </span>
+
+        <button onclick="nextPage()">
+            Next
+        </button>
+
+    </div>
+
+
+    <!-- INTERNSHIP TEMPLATE -->
+
+    <template id="internshipTemplate">
+
+        <div class="internship-page">
+
+            <h1>
+                Internship Search
+            </h1>
+
+            <input
+                type="text"
+                id="internshipInput"
+                class="search-box"
+                placeholder="Search internships..."
+            >
+
+            <div class="filters-box">
+
+                <h2>
+                    Filters
+                </h2>
+
+                <div class="filters-grid">
+
+                    <select id="modeFilter">
+
+                        <option value="">
+                            Mode
+                        </option>
+
+                        <option>
+                            Online
+                        </option>
+
+                        <option>
+                            Offline
+                        </option>
+
+                    </select>
+
+
+                    <select id="typeFilter">
+
+                        <option value="">
+                            Internship Type
+                        </option>
+
+                        <option>
+                            Paid
+                        </option>
+
+                        <option>
+                            Free
+                        </option>
+
+                        <option>
+                            Stipend
+                        </option>
+
+                    </select>
+
+
+                    <select id="durationFilter">
+
+                        <option value="">
+                            Duration
+                        </option>
+
+                        <option>
+                            1 Month
+                        </option>
+
+                        <option>
+                            3 Months
+                        </option>
+
+                        <option>
+                            6 Months
+                        </option>
+
+                    </select>
+
+
+                    <select id="locationFilter">
+
+                        <option value="">
+                            Location
+                        </option>
+
+                        <option>
+                            Hyderabad
+                        </option>
+
+                        <option>
+                            Bangalore
+                        </option>
+
+                        <option>
+                            Chennai
+                        </option>
+
+                        <option>
+                            Vizag
+                        </option>
+
+                        <option>
+                            Mumbai
+                        </option>
+
+                        <option>
+                            Kolkata
+                        </option>
+
+                        <option>
+                            Andhra Pradesh
+                        </option>
+
+                        <option>
+                            Telangana
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="start-btn"
+                    onclick="searchInternships()">
+
+                Search Internships
+
+            </button>
+
+        </div>
+
+    </template>
+
+
+    <!-- JOB TEMPLATE -->
+
+    <template id="jobTemplate">
+
+        <div class="job-page">
+
+            <h1>
+                Job Search
+            </h1>
+
+            <input
+                type="text"
+                id="jobInput"
+                class="search-box"
+                placeholder="Search jobs..."
+            >
+
+            <h2 style="margin-top:30px;">
+                Select Locations
+            </h2>
+
+            <div class="multi-locations">
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Hyderabad')">
+
+                    Hyderabad
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Bangalore')">
+
+                    Bangalore
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Chennai')">
+
+                    Chennai
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Mumbai')">
+
+                    Mumbai
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Kolkata')">
+
+                    Kolkata
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Vizag')">
+
+                    Vizag
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Andhra Pradesh')">
+
+                    Andhra Pradesh
+
+                </div>
+
+                <div class="location-chip"
+                     onclick="toggleLocation(this,'Telangana')">
+
+                    Telangana
+
+                </div>
+
+            </div>
+
+            <button class="start-btn"
+                    onclick="searchJobs()">
+
+                Search Jobs
+
+            </button>
+
+        </div>
+
+    </template>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
